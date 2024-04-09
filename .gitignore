@@ -1,0 +1,22 @@
+# Example .gitignore file.
+
+# An asterisk (*) signifies that everything will be ignored.
+*
+
+# You can whitelist files or folders using an exclamation mark (!). These whitelisted items will not be ignored.
+!*/
+!.gitignore
+!.github/*
+!README.md
+!LICENSE
+!.env-default
+!compose*.yaml
+!compose*.yml
+!docker-compose*.yaml
+!docker-compose*.yml
+!script*.sh
+!*.conf
+!*.conf.*
+
+# **Make Sure to Exclude These Files:** Otherwise, your confidential data and credentials might accidentally become public.
+.env

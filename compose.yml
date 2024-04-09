@@ -1,0 +1,43 @@
+# version is now using "compose spec"
+# v2 and v3 are now combined!
+# docker-compose v1.27+ required
+
+#services:
+
+  # Portainer, add compose yml file to COMPOSE_FILE variable on .env file:
+  # COMPOSE_FILE=compose.yml,compose-portainer.yml
+
+  # Mosquitto, add compose yml file to COMPOSE_FILE variable on .env file:
+  # COMPOSE_FILE=compose.yml,compose-mosquitto.yml
+
+  # Node-Red, add compose yml file to COMPOSE_FILE variable on .env file:
+  # COMPOSE_FILE=compose.yml,compose-node-red.yml
+
+  # Grafana, add compose yml file to COMPOSE_FILE variable on .env file:
+  # COMPOSE_FILE=compose.yml,compose-grafana.yml
+
+  # InfluxDB, add compose yml file to COMPOSE_FILE variable on .env file:
+  # COMPOSE_FILE=compose.yml,compose-influxdb.yml
+
+networks:
+
+  docker-bridge:
+    name: docker-bridge
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.1.0/24"
+
+  docker-macvlan:
+    name: docker-macvlan
+    driver: macvlan
+    driver_opts:
+      parent: net0 # Replace with your host machine's ethernet interface, example eth0
+    ipam:
+      config:
+        - subnet: "192.168.1.0/24"
+          ip_range: "192.168.1.0/32"
+          gateway: "192.168.1.1"
+
+#volumes:

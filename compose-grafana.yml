@@ -1,0 +1,18 @@
+services:
+  grafana:
+    image: grafana/grafana
+    container_name: ${COMPOSE_PROJECT_NAME}_grafana
+    user: "$DOCKER_UID:$DOCKER_GID"
+    ports:
+      - 3000:3000
+    volumes:
+      - ${DOCKER_PATH}/grafana/data:/var/lib/grafana:rw
+      - ${DOCKER_PATH}/grafana/provisioning:/etc/grafana/provisioning:rw
+    environment:
+      - TZ=${DOCKER_TZ}
+      - GF_INSTALL_PLUGINS=${GRAFANA_INSTALL_PLUGINS}
+    network_mode: bridge
+    #networks:
+    #  docker-bridge:
+    #    ipv4_address: 172.16.1.x
+    restart: unless-stopped

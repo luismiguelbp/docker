@@ -1,0 +1,24 @@
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: ${COMPOSE_PROJECT_NAME}_portainer
+    hostname: portainer
+    command: -H unix:///var/run/docker.sock
+    #user: root
+    ports:
+      - 9000:9000
+      - 9443:9443
+      - 8000:8000
+    volumes:
+      - ${DOCKER_PATH}/portainer/data:/data:rw
+      - ${DOCKER_PATH}/portainer/certs:/certs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    environment:
+      - TZ=${DOCKER_TZ}
+    network_mode: bridge
+    #networks:
+    #  docker-bridge:
+    #    ipv4_address: 172.16.1.x
+    #  docker-macvlan:
+    #    ipv4_address: 192.168.10.x
+    restart: unless-stopped

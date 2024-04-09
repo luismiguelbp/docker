@@ -1,0 +1,22 @@
+services:
+  node-red:
+    image: nodered/node-red:latest
+    container_name: ${COMPOSE_PROJECT_NAME}_node-red
+    hostname: node-red
+    user: "$DOCKER_UID:$DOCKER_GID"
+    ports:
+      - 1880:1880
+    volumes:
+      - ${DOCKER_PATH}/node-red/data:/data:rw
+      # Needed to work with Docker Containers.
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    environment:
+      - TZ=${DOCKER_TZ}
+    network_mode: bridge
+    #networks:
+    #  docker-bridge:
+    #    ipv4_address: 172.16.1.x
+    #privileged: true
+    #depends_on:
+    #  - mosquitto
+    restart: unless-stopped

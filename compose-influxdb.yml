@@ -1,0 +1,16 @@
+services:
+  influxdb:
+    image: influxdb
+    container_name: ${COMPOSE_PROJECT_NAME}_influxdb
+    #user: root
+    ports:
+      - 8086:8086
+    volumes:
+      - ${DOCKER_PATH}/influxdb/data:/var/lib/influxdb:rw
+    environment:
+      - TZ=${DOCKER_TZ}
+    network_mode: bridge
+    #networks:
+    #  docker-bridge:
+    #    ipv4_address: 172.16.1.x
+    restart: unless-stopped

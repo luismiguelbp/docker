@@ -1,0 +1,23 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    container_name: ${COMPOSE_PROJECT_NAME}_mosquitto
+    hostname: mosquitto
+    #user: root
+    ports:
+      - 1883:1883
+      - 8883:8883
+      - 9001:9001
+    volumes:
+      - ${DOCKER_PATH}/mosquitto/config:/mosquitto/config:rw
+      - ${DOCKER_PATH}/mosquitto/data:/mosquitto/data:rw
+      - ${DOCKER_PATH}/mosquitto/log:/mosquitto/log:rw
+      # Needed to work with Docker Containers.
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    environment:
+      - TZ=${DOCKER_TZ}
+    network_mode: bridge
+    #networks:
+    #  docker-bridge:
+    #    ipv4_address: 172.16.1.x
+    restart: unless-stopped
