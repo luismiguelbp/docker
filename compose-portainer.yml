@@ -1,0 +1,26 @@
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: ${COMPOSE_PROJECT_NAME}_portainer
+    hostname: portainer
+    command: -H unix:///var/run/docker.sock
+    ports:
+      - "9000:9000"
+      - "9443:9443"
+      - "8000:8000"
+    volumes:
+      - ${DOCKER_PATH}/data/portainer/data:/data:rw
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    environment:
+      - TZ=${DOCKER_TZ}
+    networks:
+      - docker-bridge
+    restart: unless-stopped
+    # Portainer CE uses a scratch image with no shell/tools - healthcheck not supported
+    healthcheck:
+      disable: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

@@ -1,0 +1,38 @@
+# Docker Compose - Base Configuration
+# Requires Docker Compose v2.0.0+ (Compose Spec)
+#
+# Available services (add to COMPOSE_FILE in .env):
+#   - compose-portainer.yml  : Container management UI
+#   - compose-mosquitto.yml  : MQTT broker
+#   - compose-node-red.yml   : Flow-based programming
+#   - compose-grafana.yml    : Visualization dashboards
+#   - compose-postgresql.yml : PostgreSQL database
+#   - compose-sqlite.yml     : SQLite database helper
+#
+# Example: COMPOSE_FILE=compose.yml,compose-portainer.yml,compose-mosquitto.yml
+
+networks:
+  docker-bridge:
+    name: docker-bridge
+    driver: bridge
+    # Docker will automatically assign IPs and provide DNS resolution
+    # Services can communicate using container names (e.g., http://mosquitto:1883)
+    #
+    # To use static IPs, uncomment and customize:
+    # ipam:
+    #   driver: default
+    #   config:
+    #     - subnet: "172.16.1.0/24"
+
+  # Macvlan network (optional - for containers needing LAN IP addresses)
+  # Uncomment and customize for your network:
+  # docker-macvlan:
+  #   name: docker-macvlan
+  #   driver: macvlan
+  #   driver_opts:
+  #     parent: eth0  # Change to your network interface
+  #   ipam:
+  #     config:
+  #       - subnet: "192.168.1.0/24"
+  #         ip_range: "192.168.1.0/32"
+  #         gateway: "192.168.1.1"

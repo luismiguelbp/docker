@@ -1,0 +1,65 @@
+# =================================================================
+# Persistence
+# =================================================================
+
+persistence true
+persistence_location /mosquitto/data/
+
+# =================================================================
+# Logging
+# =================================================================
+
+log_dest file /mosquitto/log/mosquitto.log
+log_type all
+log_timestamp true
+
+# =================================================================
+# Listeners
+# =================================================================
+
+# MQTT Default listener
+listener 1883 0.0.0.0
+socket_domain ipv4
+
+# MQTT over TLS
+#listener 8883 0.0.0.0
+#cafile /mosquitto/ca_certificates/ca.crt
+#certfile /mosquitto/ca_certificates/mosquitto.crt
+#keyfile /mosquitto/ca_certificates/mosquitto.key
+
+# MQTT over WebSockets
+listener 9001 0.0.0.0
+protocol websockets
+
+# MQTT over WebSockets with TLS
+#listener 9001 0.0.0.0
+#protocol websockets
+#cafile /mosquitto/ca_certificates/ca.crt
+#certfile /mosquitto/ca_certificates/mosquitto.crt
+#keyfile /mosquitto/ca_certificates/mosquitto.key
+
+# =================================================================
+# Security
+# =================================================================
+
+# Mosquitto >= 2.0 only allows user/password authenticated connections.
+# We temporarily allow anonymous connections to test the environment.
+allow_anonymous false
+
+# -----------------------------------------------------------------
+# Default authentication and topic access control
+# -----------------------------------------------------------------
+
+# Control access to the broker using a password file. This file can be
+# generated using the mosquitto_passwd utility. If TLS support is not compiled
+# into mosquitto (it is recommended that TLS support should be included) then
+# plain text passwords are used, in which case the file should be a text file
+# with lines in the format:
+# username:password
+# The password (and colon) may be omitted if desired, although this
+# offers very little in the way of security.
+#
+# See the TLS client require_certificate and use_identity_as_username options
+# for alternative authentication options. If a plugin is used as well as
+# password_file, the plugin check will be made first.
+password_file /mosquitto/config/passwords_file

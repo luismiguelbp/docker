@@ -1,0 +1,31 @@
+services:
+  node-red:
+    image: nodered/node-red:latest
+    container_name: ${COMPOSE_PROJECT_NAME}_node-red
+    hostname: node-red
+    user: "${DOCKER_UID}:${DOCKER_GID}"
+    ports:
+      - "1880:1880"
+    volumes:
+      - ${DOCKER_PATH}/data/node-red/data:/data:rw
+    environment:
+      - TZ=${DOCKER_TZ}
+      - NODE_RED_CREDENTIAL_SECRET=${NODE_RED_CREDENTIAL_SECRET}
+    networks:
+      - docker-bridge
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+        required: false
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:1880/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

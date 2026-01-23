@@ -1,20 +1,40 @@
-# Example .gitignore file.
+# ============================================
+# Docker & Infrastructure Standard .gitignore
+# ============================================
 
-# An asterisk (*) signifies that everything will be ignored.
-*
-
-# You can whitelist files or folders using an exclamation mark (!). These whitelisted items will not be ignored.
-!*/
-!.gitignore
-!.github/*
-!README.md
-!LICENSE
-!.env-default
-!compose*.yaml
-!compose*.yml
-!docker-compose*.yaml
-!docker-compose*.yml
-!script*.sh
-
-# **Make Sure to Exclude These Files:** Otherwise, your confidential data and credentials might accidentally become public.
+# --- Secrets and Local Config ---
 .env
+.env.*
+!.env.example
+MY-NETWORK-CONFIG.md
+
+# --- Docker Runtime Data & Persistence ---
+# We ignore the entire data/ directory which contains all service 
+# persistent data, databases, and local configurations.
+data/
+
+# Ignore SQLite databases and journals globally
+*.db
+*.db-journal
+
+# --- Logs ---
+*.log
+logs/
+
+# --- OS Specific ---
+.DS_Store
+Thumbs.db
+.Spotlight-V100
+.Trashes
+
+# --- Editor / IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
+.cursor/
+
+# --- Miscellaneous ---
+.history/
+*.bak
+*.tmp
