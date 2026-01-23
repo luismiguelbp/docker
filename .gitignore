@@ -8,6 +8,9 @@
 !.env.example
 MY-NETWORK-CONFIG.md
 
+# Mosquitto password files
+**/passwords_file
+
 # --- Docker Runtime Data & Persistence ---
 # We ignore the entire data/ directory which contains all service 
 # persistent data, databases, and local configurations.
