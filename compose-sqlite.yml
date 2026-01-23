@@ -4,7 +4,7 @@
 # SQLite is an embedded database that doesn't need a server.
 # This service provides a web-based interface to manage SQLite databases.
 #
-# Access: http://localhost:8080
+# Access: http://localhost:9080
 # Database files are stored in: ${DOCKER_PATH}/data/sqlite/
 
 services:
@@ -13,7 +13,7 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}_sqlite-web
     hostname: sqlite-web
     ports:
-      - "8080:8080"
+      - "9080:8080"
     volumes:
       - ${DOCKER_PATH}/data/sqlite:/data:rw
     environment:

@@ -11,7 +11,7 @@ Home automation using Docker, with deployments managed by Docker Compose.
 | **Node-RED** | Low-code programming for event-driven applications | 1880 |
 | **Grafana** | Visualization dashboards | 3000 |
 | **PostgreSQL** | Relational database | 5432 |
-| **SQLite Web** | SQLite database management UI | 8080 |
+| **SQLite Web** | SQLite database management UI | 9080 |
 
 ## Quick Start
 
