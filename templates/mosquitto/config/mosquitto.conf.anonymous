@@ -10,8 +10,12 @@ persistence_location /mosquitto/data/
 # =================================================================
 
 log_dest file /mosquitto/log/mosquitto.log
-log_type all
+log_type error
+log_type warning
+log_type notice
+log_type connection
 log_timestamp true
+log_timestamp_format %Y-%m-%dT%H:%M:%S%z
 
 # =================================================================
 # Listeners
@@ -20,6 +24,7 @@ log_timestamp true
 # MQTT Default listener
 listener 1883 0.0.0.0
 socket_domain ipv4
+max_connections 500
 
 # MQTT over WebSockets
 listener 9001 0.0.0.0
