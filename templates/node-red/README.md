@@ -20,3 +20,37 @@ See the following links for more information on Node-RED:
 docker exec -it <container> node-red-admin --help
 docker exec -it <container> node-red-admin list
 ```
+
+## Admin password setup
+
+To password protect the Node-RED editor and admin API, add an `adminAuth` block
+to your `${DOCKER_PATH}/data/node-red/settings.js` file.
+
+See <https://nodered.org/docs/security.html> for details.
+
+1. Generate a password hash:
+
+```shell
+docker exec -it <container> node-red-admin hash-pw
+```
+
+2. Add the `adminAuth` block to `settings.js`:
+
+```javascript
+adminAuth: {
+    type: "credentials",
+    users: [{
+        username: "admin",
+        password: "",
+        permissions: "*"
+    }]
+},
+```
+
+Replace the `password` value with the hash you generated.
+
+3. Restart Node-RED:
+
+```shell
+docker compose restart node-red
+```

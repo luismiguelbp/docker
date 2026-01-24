@@ -4,7 +4,7 @@
 # Default credentials (change in .env):
 #   User: admin
 #   Password: changeme
-#   Database: homelab
+#   Database: automation
 
 services:
   postgresql:
@@ -19,12 +19,12 @@ services:
       - TZ=${DOCKER_TZ}
       - POSTGRES_USER=${POSTGRES_USER:-admin}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme}
-      - POSTGRES_DB=${POSTGRES_DB:-homelab}
+      - POSTGRES_DB=${POSTGRES_DB:-automation}
     networks:
       - docker-bridge
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-admin} -d ${POSTGRES_DB:-homelab}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-admin} -d ${POSTGRES_DB:-automation}"]
       interval: 30s
       timeout: 10s
       retries: 3

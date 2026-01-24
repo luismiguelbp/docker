@@ -22,6 +22,9 @@ Home automation using Docker, with deployments managed by Docker Compose.
 git clone https://github.com/luismiguelbp/docker.git /opt/docker
 cd /opt/docker
 
+# Ensure scripts are executable
+chmod +x scripts/*.sh
+
 # Copy and edit the environment file
 cp .env.example .env
 nano .env
