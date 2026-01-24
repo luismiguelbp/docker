@@ -13,7 +13,7 @@ log_dest file /mosquitto/log/mosquitto.log
 log_type error
 log_type warning
 log_type notice
-log_type connection
+log_type information
 log_timestamp true
 log_timestamp_format %Y-%m-%dT%H:%M:%S%z
 
