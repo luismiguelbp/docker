@@ -6,7 +6,7 @@ Home automation using Docker, with deployments managed by Docker Compose.
 
 | Service | Description | Port |
 |---------|-------------|------|
-| **Portainer** | Container management UI | 9000, 9443 |
+| **Portainer** | Container management UI | 8000, 9000, 9443 |
 | **Mosquitto** | MQTT broker for IoT | 1883, 8883, 9001 |
 | **Node-RED** | Low-code programming for event-driven applications | 1880 |
 | **Grafana** | Visualization dashboards | 3000 |
@@ -19,7 +19,7 @@ Home automation using Docker, with deployments managed by Docker Compose.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/docker.git /opt/docker
+git clone https://github.com/luismiguelbp/docker.git /opt/docker
 cd /opt/docker
 
 # Copy and edit the environment file
@@ -114,6 +114,7 @@ COMPOSE_FILE=compose.yml,compose-portainer.yml,compose-mosquitto.yml,compose-nod
 ├── .env                 # Environment configuration
 ├── compose.yml          # Base network configuration
 ├── compose-*.yml        # Service definitions
+├── NETWORK-CONFIG.md    # Network config documentation
 ├── templates/           # Configuration templates (copy manually)
 │   └── mosquitto/config/mosquitto.conf
 └── data/                # Persistent service data (ignored by git)

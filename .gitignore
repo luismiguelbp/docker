@@ -6,7 +6,6 @@
 .env
 .env.*
 !.env.example
-MY-NETWORK-CONFIG.md
 
 # Mosquitto password files
 **/passwords_file
