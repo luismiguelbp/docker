@@ -13,6 +13,16 @@ Home automation using Docker, with deployments managed by Docker Compose.
 | **PostgreSQL** | Relational database | 5432 |
 | **SQLite Web** | SQLite database management UI | 9080 |
 
+## Requirements
+
+- A Linux host with **Docker Engine** and the **Docker Compose plugin** available as `docker compose`.
+- Basic CLI tools such as `git`, `sudo`, and a shell.
+
+On a completely fresh **Debian/Ubuntu** server, the chronological setup is:
+
+1. Prepare the system and install Docker using the commands in **Initial System Setup (Debian/Ubuntu)** at the end of this document (which internally uses `./scripts/docker-setup.sh install`).
+2. Then follow the steps in **Quick Start** below to clone this repository, create data folders, configure `.env`, and start the services.
+
 ## Quick Start
 
 ### 1. Clone and Configure
@@ -24,11 +34,19 @@ cd /opt/docker
 
 # Ensure scripts are executable
 chmod +x scripts/*.sh
-
-# Copy and edit the environment file
-cp .env.example .env
-nano .env
 ```
+
+### Install Docker (if needed)
+
+If Docker Engine and the `docker compose` plugin are **not** already installed on this host:
+
+- **Debian/Ubuntu**: use the helper script (wraps the official Docker APT repository):
+
+  ```bash
+  sudo ./scripts/docker-setup.sh install
+  ```
+
+- **Other Linux distributions**: install Docker Engine and the `docker compose` plugin using the official Docker documentation, then continue with the steps below.
 
 ### 2. Create Folders and Set Permissions
 
@@ -39,6 +57,12 @@ sudo ./scripts/docker-setup.sh init /opt/docker
 # Or run steps individually
 sudo ./scripts/docker-setup.sh create /opt/docker
 sudo ./scripts/docker-setup.sh perms /opt/docker
+```
+
+After running `init` (or `create`), the script will create `/opt/docker/.env` from `.env.example` if it does not already exist. **Edit this file before starting any services:**
+
+```bash
+nano /opt/docker/.env
 ```
 
 ### 3. Copy Required Configuration Files
@@ -281,6 +305,8 @@ Other restart policies exist (such as `no`, `on-failure`, or `always`), but `unl
 
 ## Initial System Setup (Debian/Ubuntu)
 
+The `./scripts/docker-setup.sh install` helper supports **Debian/Ubuntu only**. On other Linux distributions, install Docker Engine and the `docker compose` plugin using the official Docker documentation, then follow the **Quick Start** steps above.
+
 ```bash
 # Update system
 apt update && apt upgrade -y
@@ -294,6 +320,45 @@ dpkg-reconfigure locales
 
 # Install Docker (Debian/Ubuntu)
 ./scripts/docker-setup.sh install
+```
+
+## Full Setup on a Fresh Debian/Ubuntu Server
+
+For a completely new server, you can run these steps in order:
+
+```bash
+# 1) Base system packages
+sudo apt update
+sudo apt upgrade -y
+sudo apt install nano mc htop curl wget git sudo -y
+
+# 2) Optional: configure timezone and locale
+sudo dpkg-reconfigure tzdata
+sudo dpkg-reconfigure locales
+
+# 3) Clone this repository
+sudo mkdir -p /opt
+sudo chown "$(id -u)":"$(id -g)" /opt
+cd /opt
+git clone https://github.com/luismiguelbp/docker.git
+cd docker
+chmod +x scripts/*.sh
+
+# 4) Install Docker (supported on Debian/Ubuntu only)
+sudo ./scripts/docker-setup.sh install
+
+# 5) Create data folders and permissions (also generates /opt/docker/.env if missing)
+sudo ./scripts/docker-setup.sh init /opt/docker
+
+# 6) Edit the generated environment file BEFORE starting services
+nano /opt/docker/.env
+
+# 7) Copy required configuration templates (at minimum Mosquitto)
+cp templates/mosquitto/config/mosquitto.conf /opt/docker/data/mosquitto/config/
+
+# 8) Start the selected services
+docker compose up -d
+docker compose ps
 ```
 
 ## License
