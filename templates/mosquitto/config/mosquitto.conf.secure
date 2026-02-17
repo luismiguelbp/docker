@@ -47,8 +47,8 @@ protocol websockets
 # Security
 # =================================================================
 
-# Mosquitto >= 2.0 only allows user/password authenticated connections.
-# We temporarily allow anonymous connections to test the environment.
+# Mosquitto >= 2.0 requires explicit anonymous configuration.
+# Anonymous access is disabled; clients must authenticate.
 allow_anonymous false
 
 # -----------------------------------------------------------------

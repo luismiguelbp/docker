@@ -119,6 +119,7 @@ Several services include Docker health checks so that `depends_on` can wait for 
 - **PostgreSQL**: Uses `pg_isready` to verify the database is accepting connections.
 - **Grafana**: Calls the `/api/health` HTTP endpoint.
 - **SQLite Web**: Uses an HTTP check against `http://localhost:8080/`.
+- **Portainer**: Does not expose a standard Docker health check; the official image uses a minimal base without common tools.
 
 When a service uses `depends_on` with `condition: service_healthy`, Docker Compose waits until the upstream service is marked **healthy** before starting the dependent container (for example, Node-RED waiting for Mosquitto, or Grafana waiting for PostgreSQL).
 
@@ -192,6 +193,18 @@ You can mount certificates by mapping a host directory (for example, `${DOCKER_P
 - Switch to the secure template.
 - Disable `allow_anonymous`.
 - Use a password file and (ideally) TLS.
+
+Example volume mount snippet for `compose-mosquitto.yml`:
+
+```yaml
+services:
+  mosquitto:
+    volumes:
+      - ${DOCKER_PATH}/data/mosquitto/config:/mosquitto/config:rw
+      - ${DOCKER_PATH}/data/mosquitto/data:/mosquitto/data:rw
+      - ${DOCKER_PATH}/data/mosquitto/log:/mosquitto/log:rw
+      - ${DOCKER_PATH}/data/mosquitto/certs:/mosquitto/ca_certificates:ro
+```
 
 ## Backup and Restore
 
