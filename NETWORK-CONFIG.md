@@ -103,3 +103,27 @@ services:
 - **Macvlan Parent Interface:** eth0 (example only)
 - **Subnet:** 192.168.1.0/24 (example only)
 - **Gateway:** 192.168.1.1 (example only)
+
+## Firewall and Network Security
+
+These examples assume a Linux host using `ufw` as a simple firewall. Adapt the IP ranges, ports, and tools to match your environment.
+
+```bash
+# Allow SSH for remote administration
+sudo ufw allow 22/tcp
+
+# Allow Grafana only from the local LAN
+sudo ufw allow from 192.168.1.0/24 to any port 3000 proto tcp
+
+# Allow MQTT from the local LAN only
+sudo ufw allow from 192.168.1.0/24 to any port 1883 proto tcp
+
+# Enable the firewall (review rules first)
+sudo ufw enable
+```
+
+General recommendations:
+
+- Expose only the ports you actually need from outside the host.
+- Prefer limiting access to trusted subnets (for example, your home LAN) instead of allowing the whole internet.
+- Combine firewall rules with secure service configuration (for example, Mosquitto authentication and TLS as described in `README.md`).
