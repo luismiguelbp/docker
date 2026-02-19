@@ -272,7 +272,8 @@ docker compose logs -f mosquitto
 docker compose restart grafana
 
 # Update all images
-docker compose pull && docker compose up -d
+docker compose pull
+docker compose up -d
 
 # Clean up unused resources
 docker system prune -a --force
@@ -309,7 +310,8 @@ The `./scripts/docker-setup.sh install` helper supports **Debian/Ubuntu only**. 
 
 ```bash
 # Update system
-apt update && apt upgrade -y
+apt update
+apt upgrade -y
 
 # Install useful tools
 apt install nano mc htop curl wget git sudo -y

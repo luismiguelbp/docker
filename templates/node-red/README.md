@@ -41,7 +41,7 @@ adminAuth: {
     type: "credentials",
     users: [{
         username: "admin",
-        password: "",
+        password: "<paste-your-generated-hash-here>",
         permissions: "*"
     }]
 },
