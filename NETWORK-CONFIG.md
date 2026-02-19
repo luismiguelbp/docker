@@ -38,11 +38,12 @@ networks:
 
 | Service | IP Address | Port(s) |
 |---------|------------|---------|
-| Portainer | 172.16.1.5 | 9000, 9443, 8000 |
-| Mosquitto | 172.16.1.10 | 1883, 8883, 9001 |
-| Node-RED | 172.16.1.15 | 1880 |
-| Grafana | 172.16.1.20 | 3000 |
-| PostgreSQL | 172.16.1.25 | 5432 |
+| Portainer | 172.16.1.10 | 9000, 9443, 8000 |
+| Mosquitto | 172.16.1.11 | 1883, 8883, 9001 |
+| Node-RED | 172.16.1.12 | 1880 |
+| Grafana | 172.16.1.13 | 3000 |
+| PostgreSQL | 172.16.1.14 | 5432 |
+| SQLite Web | 172.16.1.15 | 9080 |
 
 ## How to Restore Static IPs
 
@@ -55,7 +56,7 @@ services:
   portainer:
     networks:
       docker-bridge:
-        ipv4_address: 172.16.1.5
+        ipv4_address: 172.16.1.10
 ```
 
 ### Mosquitto
@@ -65,7 +66,7 @@ services:
   mosquitto:
     networks:
       docker-bridge:
-        ipv4_address: 172.16.1.10
+        ipv4_address: 172.16.1.11
 ```
 
 ### Node-RED
@@ -75,7 +76,7 @@ services:
   node-red:
     networks:
       docker-bridge:
-        ipv4_address: 172.16.1.15
+        ipv4_address: 172.16.1.12
 ```
 
 ### Grafana
@@ -85,7 +86,7 @@ services:
   grafana:
     networks:
       docker-bridge:
-        ipv4_address: 172.16.1.20
+        ipv4_address: 172.16.1.13
 ```
 
 ### PostgreSQL (if using static IP)
@@ -95,7 +96,17 @@ services:
   postgresql:
     networks:
       docker-bridge:
-        ipv4_address: 172.16.1.25
+        ipv4_address: 172.16.1.14
+```
+
+### SQLite Web (if using static IP)
+
+```yaml
+services:
+  sqlite-web:
+    networks:
+      docker-bridge:
+        ipv4_address: 172.16.1.15
 ```
 
 ## Local Network Details
@@ -103,3 +114,27 @@ services:
 - **Macvlan Parent Interface:** eth0 (example only)
 - **Subnet:** 192.168.1.0/24 (example only)
 - **Gateway:** 192.168.1.1 (example only)
+
+## Firewall and Network Security
+
+These examples assume a Linux host using `ufw` as a simple firewall. Adapt the IP ranges, ports, and tools to match your environment.
+
+```bash
+# Allow SSH for remote administration
+sudo ufw allow 22/tcp
+
+# Allow Grafana only from the local LAN
+sudo ufw allow from 192.168.1.0/24 to any port 3000 proto tcp
+
+# Allow MQTT from the local LAN only
+sudo ufw allow from 192.168.1.0/24 to any port 1883 proto tcp
+
+# Enable the firewall (review rules first)
+sudo ufw enable
+```
+
+General recommendations:
+
+- Expose only the ports you actually need from outside the host.
+- Prefer limiting access to trusted subnets (for example, your home LAN) instead of allowing the whole internet.
+- Combine firewall rules with secure service configuration (for example, Mosquitto authentication and TLS as described in `README.md`).
