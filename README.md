@@ -17,6 +17,15 @@ Home automation using Docker, with deployments managed by Docker Compose.
 
 - A Linux host with **Docker Engine** and the **Docker Compose plugin** available as `docker compose`.
 - Basic CLI tools such as `git`, `sudo`, and a shell.
+- Your user must be a member of the `docker` group to run `docker` commands without `sudo`:
+
+  ```bash
+  # Add your current user to the docker group
+  sudo usermod -aG docker $USER
+
+  # Log out and back in, or apply the group change in the current session
+  newgrp docker
+  ```
 
 On a completely fresh **Debian/Ubuntu** server, the chronological setup is:
 
@@ -29,11 +38,11 @@ On a completely fresh **Debian/Ubuntu** server, the chronological setup is:
 
 ```bash
 # Clone the repository
-git clone https://github.com/luismiguelbp/docker.git /opt/docker
+sudo git clone https://github.com/luismiguelbp/docker.git /opt/docker
 cd /opt/docker
 
 # Ensure scripts are executable
-chmod +x scripts/*.sh
+sudo chmod +x scripts/*.sh
 ```
 
 ### Install Docker (if needed)
@@ -62,14 +71,14 @@ sudo ./scripts/docker-setup.sh perms /opt/docker
 After running `init` (or `create`), the script will create `/opt/docker/.env` from `.env.example` if it does not already exist. **Edit this file before starting any services:**
 
 ```bash
-nano /opt/docker/.env
+sudo nano /opt/docker/.env
 ```
 
 ### 3. Copy Required Configuration Files
 
 ```bash
 # Mosquitto requires a config file (Mosquitto 2.x won't start without it)
-cp templates/mosquitto/config/mosquitto.conf /opt/docker/data/mosquitto/config/
+sudo cp templates/mosquitto/config/mosquitto.conf /opt/docker/data/mosquitto/config/
 ```
 
 ### 4. Start Services
@@ -177,13 +186,13 @@ The `templates/` folder contains configuration files that need to be copied to `
 Copy templates manually:
 
 ```bash
-cp templates/mosquitto/config/mosquitto.conf ${DOCKER_PATH}/data/mosquitto/config/
+sudo cp templates/mosquitto/config/mosquitto.conf ${DOCKER_PATH}/data/mosquitto/config/
 ```
 
 To customize after setup, edit files in `data/` and restart the service:
 
 ```bash
-nano ${DOCKER_PATH}/data/mosquitto/config/mosquitto.conf
+sudo nano ${DOCKER_PATH}/data/mosquitto/config/mosquitto.conf
 docker compose restart mosquitto
 ```
 
