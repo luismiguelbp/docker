@@ -1,3 +1,6 @@
+# Mosquitto MQTT Broker Configuration
+# Documentation: https://mosquitto.org/man/mosquitto-conf-5.html
+
 # =================================================================
 # Persistence
 # =================================================================
